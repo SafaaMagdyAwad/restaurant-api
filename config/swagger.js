@@ -19,7 +19,7 @@ const swaggerOptions = {
         url: 'http://localhost:5000',
         description: 'local server',
       },{
-        url:'',
+        url:'https://resturant-api-one.vercel.app',
         description:'Production server',
       }
     ],
