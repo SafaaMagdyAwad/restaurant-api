@@ -62,6 +62,18 @@ export const getOrders = async (req, res) => {
   }
 };
 
+//getOrderById
+export const getOrderById = async (req, res) => {
+  try {
+    const orderId=req.params.id;
+    console.log(orderId ,"orderId");
+    const order = await Order.findById(orderId);
+    res.status(200).json({ success: true, data: order });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
 
 // Update order status (role-based)

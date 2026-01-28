@@ -2,10 +2,12 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import categoryRoutes from './routes/categoryRoutes.mjs'
 import menuRoutes from './routes/menueRoutes.mjs';
 import reservationRoutes from './routes/reservationRoutes.mjs';
 import orderRoutes from './routes/orderRoutes.mjs';
 import authRoutes from './routes/authRoutes.mjs';
+import messageRoutes from './routes/messageRoutes.mjs';
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css";
@@ -24,9 +26,11 @@ app.get("/", (req, res) => {
   });
 });
 app.use("/api/auth", authRoutes);
+app.use("/api/category",categoryRoutes)
 app.use("/api/menu", menuRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/message", messageRoutes);
 app.use(
   "/api-docs",
   swaggerUi.serve,

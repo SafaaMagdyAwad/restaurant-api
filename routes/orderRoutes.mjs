@@ -1,5 +1,5 @@
 import express from "express";
-import { cancelOrder, createOrder, getOrders, updateOrderStatus } from "../controllers/OrderController.mjs";
+import { cancelOrder, createOrder, getOrderById, getOrders, updateOrderStatus } from "../controllers/OrderController.mjs";
 import { authMiddleware, isAdmin } from "../middlewares/authMiddleware.mjs";
 import { createOrderValidation } from "../validators/orderValidator.mjs";
 
@@ -194,6 +194,7 @@ const router = express.Router();
  */
 
 router.post("/", createOrderValidation, createOrder);
+router.get("/:id",  getOrderById);
 router.get("/", authMiddleware, isAdmin, getOrders);
 router.put("/:id/status", authMiddleware, isAdmin, updateOrderStatus);
 router.put("/:id/cancel", cancelOrder);
