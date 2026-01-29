@@ -28,6 +28,14 @@ const reservationSchema = new mongoose.Schema(
       enum: ["pending", "confirmed", "cancelled"],
       default: "pending",
     },
+    notes:{
+      type:String,
+    },
+    price:{
+      type:Number,
+      required:true,
+      min:80,//على حسب اسعار المكان
+    }
   },
   { timestamps: true }
 );

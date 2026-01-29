@@ -19,3 +19,39 @@ export const getReservations = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+//update reservations
+export const updateReservation = async (req, res) => {
+  try {
+    const reservationId=req.params.id;
+    console.log((reservationId));
+
+    const newData=req.body;
+    console.log(newData);
+    
+    const newreservation = await Reservation.findByIdAndUpdate(reservationId,newData);
+    if(!newreservation){
+      res.json({message:"reservation Not Found"})
+    }
+    res.status(200).json({ success: true ,data:newreservation });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+//update reservations
+export const cancelReservation = async (req, res) => {
+  try {
+    const reservationId=req.params.id;
+
+    const newData={ status: 'cancelled' };
+    
+    const newreservation = await Reservation.findByIdAndUpdate(reservationId,newData);
+    if(!newreservation){
+      res.json({message:"reservation Not Found"})
+    }
+    res.status(200).json({ success: true ,data:newreservation });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
