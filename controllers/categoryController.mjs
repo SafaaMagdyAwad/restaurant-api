@@ -47,18 +47,34 @@ export const createCat = async (req, res, next) => {
 // ==============================
 export const getAllCate = async (req, res, next) => {
   try {
-    const categories = await Category.find().sort({ createdAt: -1 });
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const limit = Math.max(parseInt(req.query.limit) || 10, 1);
+    const skip = (page - 1) * limit;
+
+    // total count
+    const total = await Category.countDocuments();
+
+    // paginated data
+    const categories = await Category.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
 
     return res.status(200).json({
       success: true,
       message: "Categories fetched successfully",
+      total,
       count: categories.length,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
       data: categories,
     });
   } catch (error) {
     next(error);
   }
 };
+
 
 // ==============================
 // GET CATEGORY BY ID

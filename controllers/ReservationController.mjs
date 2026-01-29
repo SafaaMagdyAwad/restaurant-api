@@ -25,12 +25,33 @@ console.log(id);
 // Get all reservations (Admin)
 export const getReservations = async (req, res) => {
   try {
-    const reservations = await Reservation.find();
-    res.status(200).json({ success: true, data: reservations });
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const limit = Math.max(parseInt(req.query.limit) || 10, 1);
+    const skip = (page - 1) * limit;
+
+    // total reservations count
+    const total = await Reservation.countDocuments();
+
+    // paginated reservations
+    const reservations = await Reservation.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.status(200).json({
+      success: true,
+      total,
+      count: reservations.length,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      data: reservations,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 //update reservations
 export const updateReservation = async (req, res) => {

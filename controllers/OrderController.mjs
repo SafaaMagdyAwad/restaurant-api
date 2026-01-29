@@ -55,12 +55,34 @@ export const createOrder = async (req, res) => {
 // Get all orders (Admin)
 export const getOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("items.menuItemId");
-    res.status(200).json({ success: true, data: orders });
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const limit = Math.max(parseInt(req.query.limit) || 10, 1);
+    const skip = (page - 1) * limit;
+
+    // total orders count
+    const total = await Order.countDocuments();
+
+    // paginated orders
+    const orders = await Order.find()
+      .populate("items.menuItemId")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.status(200).json({
+      success: true,
+      total,
+      count: orders.length,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      data: orders,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 //getOrderById
 export const getOrderById = async (req, res) => {
@@ -89,7 +111,7 @@ export const updateOrderStatus = async (req, res) => {
     }
 
       // Admin can set any valid status
-      const validStatuses = ["pending", "preparing", "ready", "delivered"];
+      const validStatuses = ["pending", "preparing", "ready", "delivered","cancelled"];
       if (!validStatuses.includes(status)) {
         return res.status(400).json({ success: false, message: "Invalid status for admin" });
       }
