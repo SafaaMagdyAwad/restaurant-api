@@ -10,6 +10,18 @@ export const createReservation = async (req, res) => {
   }
 };
 
+
+export const getReservationById = async (req, res) => {
+  try {
+    const id=req.params.id;
+console.log(id);
+
+    const reservation = await Reservation.findById(id);
+    res.status(200).json({ success: true, data: reservation });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 // Get all reservations (Admin)
 export const getReservations = async (req, res) => {
   try {

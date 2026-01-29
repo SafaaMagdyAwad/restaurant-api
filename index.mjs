@@ -8,6 +8,7 @@ import reservationRoutes from './routes/reservationRoutes.mjs';
 import orderRoutes from './routes/orderRoutes.mjs';
 import authRoutes from './routes/authRoutes.mjs';
 import messageRoutes from './routes/messageRoutes.mjs';
+import adminRoutes from './routes/adminRoutes.mjs'
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css";
@@ -31,6 +32,7 @@ app.use("/api/menu", menuRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/admin",adminRoutes)
 app.use(
   "/api-docs",
   swaggerUi.serve,

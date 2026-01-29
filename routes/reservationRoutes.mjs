@@ -1,5 +1,5 @@
 import express from "express";
-import { cancelReservation, createReservation, getReservations, updateReservation } from "../controllers/ReservationController.mjs";
+import { cancelReservation, createReservation, getReservationById, getReservations, updateReservation } from "../controllers/ReservationController.mjs";
 import { authMiddleware, isAdmin } from "../middlewares/authMiddleware.mjs";
 
 const router = express.Router();
@@ -108,6 +108,9 @@ router.post("/", createReservation);
  *         description: Admin access only
  */
 router.get("/", authMiddleware, isAdmin, getReservations);
+
+router.get('/:id' ,getReservationById);
+
 /**
  * @swagger
  * /api/reservations/{id}/admin:
