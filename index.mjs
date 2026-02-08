@@ -17,7 +17,10 @@ dotenv.config();
 const app = express();
 
 // ================= Middleware =================
-app.use(cors());
+app.use(cors({
+  origin: ["https://resturant-five-lake.vercel.app"],
+  credentials: true
+}));
 app.use(express.json());
 
 // ================= Test Route =================
@@ -45,7 +48,6 @@ app.use(
   })
 );
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ================= Database Connection =================
 mongoose
