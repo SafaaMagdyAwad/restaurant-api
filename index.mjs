@@ -19,22 +19,23 @@ const app = express();
 // ================= Middleware =================
 
 app.use(cors({
-  origin: function(origin, callback){
+  origin: function (origin, callback) {
     if (!origin) return callback(null, true); // allow Postman
     const allowedOrigins = [
-      "http://localhost:3000/",
-      "http://localhost:5173/",
-      "https://resturant-five-lake.vercel.app/",
-      "https://restaurant-api-henna.vercel.app/" // Swagger deployed
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://resturant-five-lake.vercel.app",
+      "https://restaurant-api-henna.vercel.app"
     ];
+
     if (!allowedOrigins.includes(origin)) {
       return callback(new Error(`CORS policy: origin ${origin} not allowed`), false);
     }
     return callback(null, true);
   },
   credentials: true,
-  allowedHeaders: ["Content-Type","Authorization"],
-  methods: ["GET","POST","PATCH","DELETE","OPTIONS","PUT"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"]
 }));
 
 app.use(express.urlencoded({ extended: true })); // optional, parses form data
@@ -50,12 +51,12 @@ app.get("/", (req, res) => {
   });
 });
 app.use("/api/auth", authRoutes);
-app.use("/api/category",categoryRoutes)
+app.use("/api/category", categoryRoutes)
 app.use("/api/menu", menuRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/message", messageRoutes);
-app.use("/api/admin",adminRoutes)
+app.use("/api/admin", adminRoutes)
 app.use(
   "/api-docs",
   swaggerUi.serve,
