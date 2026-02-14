@@ -23,7 +23,7 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // requests من Postman / server
+    if (!origin) return callback(null, true); 
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -35,7 +35,6 @@ app.use(cors({
   credentials: true,
 }));
 
-// مهم جدًا
 app.options("*", cors());
 
 app.use(express.json());
@@ -77,8 +76,13 @@ mongoose
   });
 
 // ================= Server =================
-const PORT = process.env.PORT || 5000;
+// Only listen if not running on Vercel
+if (process.env.NODE_ENV !== 'production') {
+  const port = process.env.PORT || 5000;
+  app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+// FIX: Use export default instead of module.exports
+export default app;
