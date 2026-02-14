@@ -17,25 +17,29 @@ dotenv.config();
 const app = express();
 
 // ================= Middleware =================
-const allowedOrigins = [
-  "https://resturant-five-lake.vercel.app"
-];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true); 
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
+  origin: function(origin, callback){
+    if (!origin) return callback(null, true); // allow Postman
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://resturant-five-lake.vercel.app",
+      "https://restaurant-api-henna.vercel.app/" // Swagger deployed
+    ];
+    if (!allowedOrigins.includes(origin)) {
+      return callback(new Error(`CORS policy: origin ${origin} not allowed`), false);
     }
+    return callback(null, true);
   },
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
+  allowedHeaders: ["Content-Type","Authorization"],
+  methods: ["GET","POST","PATCH","DELETE","OPTIONS","PUT"]
 }));
 
-app.options("*", cors());
+app.use(express.urlencoded({ extended: true })); // optional, parses form data
+
+
 
 app.use(express.json());
 
