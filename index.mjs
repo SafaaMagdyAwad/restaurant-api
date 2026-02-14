@@ -22,9 +22,9 @@ app.use(cors({
   origin: function(origin, callback){
     if (!origin) return callback(null, true); // allow Postman
     const allowedOrigins = [
-      "http://localhost:3000",
-      "http://localhost:5173",
-      "https://resturant-five-lake.vercel.app",
+      "http://localhost:3000/",
+      "http://localhost:5173/",
+      "https://resturant-five-lake.vercel.app/",
       "https://restaurant-api-henna.vercel.app/" // Swagger deployed
     ];
     if (!allowedOrigins.includes(origin)) {

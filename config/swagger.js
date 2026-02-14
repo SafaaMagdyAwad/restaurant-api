@@ -1,7 +1,6 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import path from "path";
 import { fileURLToPath } from "url";
-import { url } from "inspector";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +18,7 @@ const swaggerOptions = {
         url: 'http://localhost:5000',
         description: 'local server',
       },{
-        url:'https://resturant-api-one.vercel.app',
+        url:'https://restaurant-api-henna.vercel.app/',
         description:'Production server',
       }
     ],
